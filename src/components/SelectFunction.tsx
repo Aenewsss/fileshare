@@ -20,7 +20,8 @@ export default function SelectFunction() {
         };
 
         const receiverJoinSuccessListener = (data: string) => {
-            router.push('/receive-files')
+            console.log('data line 23', data)
+            router.push(`/receive-files?session=${data}`)
         };
 
         socket.on("receiver-join-error", receiverJoinErrorListener);

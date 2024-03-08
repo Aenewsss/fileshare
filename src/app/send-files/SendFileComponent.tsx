@@ -32,6 +32,7 @@ export default function SendFileComponent() {
 
     function shareFiles(e: any) {
         const file = e.target.files[0]
+        console.log(file)
 
         if (!file) return
 
@@ -54,12 +55,15 @@ export default function SendFileComponent() {
             socket.on("fs-share", () => {
                 const chunk = buffer.slice(0, metadata.buffer_size)
                 buffer = buffer.slice(metadata.buffer_size, buffer.length)
-
-                const progress = (metadata.total_buffer_size - buffer.length) / (metadata.total_buffer_size * 100)
+                
+                const progress = (metadata.total_buffer_size - buffer.length) / (metadata.total_buffer_size) * 100
                 setShareProgress(progress)
 
                 if(chunk.length != 0){
-                    socket.emit("")
+                    socket.emit("file-raw", {
+                        sessionId,
+                        buffer:chunk
+                    })
                 }
             })
 
@@ -76,7 +80,7 @@ export default function SendFileComponent() {
                 ? <p>Aguardando alguém conectar em sua sessão para começar o compartilhamento</p>
                 : <>
                     <label htmlFor="select-files" className="btn btn-primary mt-4">Selecionar Arquivos</label>
-                    <input id="select-files" type="file" accept="*/image" className="d-none" />
+                    <input onChange={shareFiles} id="select-files" type="file" accept="*/image" className="d-none" />
                     {
                         sharedFiles.length == 0
                             ? <p className="text-secondary mt-4">Nenhum arquivo compartilhado até o momento</p>
@@ -84,6 +88,7 @@ export default function SendFileComponent() {
                                 <h3 className="mt-4">Arquivos compartilhados:</h3>
                             </div>
                     }
+                    <p>{shareProgress}</p>
                 </>
             }
         </main >
