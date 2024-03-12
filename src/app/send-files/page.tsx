@@ -1,7 +1,12 @@
 
+import { Suspense } from "react"
 import SendFileComponent from "./SendFileComponent"
 
 export default async function Page() {
 
-    return (<SendFileComponent/>)
+    return (
+        <Suspense>
+            <SendFileComponent />
+        </Suspense>
+    )
 }
