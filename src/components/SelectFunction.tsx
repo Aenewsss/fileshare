@@ -1,9 +1,7 @@
 "use client"
 
-import { PathEnum } from "@/enums/path.enum";
 import { socket } from "@/socket/config";
 import { generateSessionId } from "@/utils/generate-session-id.util";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -20,7 +18,6 @@ export default function SelectFunction() {
         };
 
         const receiverJoinSuccessListener = (data: string) => {
-            console.log('data line 23', data)
             router.push(`/receive-files?session=${data}`)
         };
 
